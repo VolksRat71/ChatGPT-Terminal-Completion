@@ -1,4 +1,6 @@
 # Importing the necessary libraries
+
+# TODO: figureout how to import the Chat class from the pychatgpt library
 from pychatgpt import Chat
 import sys
 import subprocess
@@ -10,8 +12,9 @@ import re
 dotenv.load_dotenv()
 
 # Retrieving command-line arguments and formatting them for use in the chatbot
-args = sys.argv[1]
-args = "Write a one line bash command for this task: " + args
+question = sys.argv[1]
+flags = sys.argv[2]
+formatted_question = "Write a one line bash command for this task: " + question + " " + flags
 
 # Setting up the command to copy the chatbot's response to the clipboard
 copy_command = "pbcopy"
@@ -27,7 +30,7 @@ chat = Chat(api_key=api_key)
 # chat = Chat(email, password)
 
 # Sending the prompt to the chatbot and receiving the response, along with conversation IDs
-answer, previous_convo_id, convo_id = chat.ask(args)
+answer, previous_convo_id, convo_id = chat.ask(formatted_question)
 
 # Using a regular expression to extract the one-line bash command from the chatbot's response
 test = re.search(r"(```\n)(.*)(\n```)", answer)
