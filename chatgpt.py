@@ -8,13 +8,23 @@ import dotenv
 import os
 import re
 
+# This function takes a flag as input and uses a dictionary to return a corresponding value.
+# If the flag is "--chat", it returns an empty string. Otherwise, it returns a default string
+# asking the user to write a one line bash command for a given task
+def switch_case(flag):
+    switcher = {
+        "--chat": "",
+        "default": "Write a one line bash command for this task: "
+    }
+    return switcher.get(argument, switcher["default"])
+
 # Loading environment variables from a .env file in the current directory
 dotenv.load_dotenv()
 
 # Retrieving command-line arguments and formatting them for use in the chatbot
 question = sys.argv[1]
 flags = sys.argv[2]
-formatted_question = "Write a one line bash command for this task: " + question + " " + flags
+formatted_question = switch_case(flags) + question
 
 # Setting up the command to copy the chatbot's response to the clipboard
 copy_command = "pbcopy"
