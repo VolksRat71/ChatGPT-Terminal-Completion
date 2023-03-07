@@ -21,6 +21,10 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 # Initializing the Chat class with the API key
 chat = Chat(api_key=api_key)
+# Alternatively, you can authenticate with an email and password:
+# email = os.getenv("EMAIL")
+# password = os.getenv("PASSWORD")
+# chat = Chat(email, password)
 
 # Sending the prompt to the chatbot and receiving the response, along with conversation IDs
 answer, previous_convo_id, convo_id = chat.ask(args)
