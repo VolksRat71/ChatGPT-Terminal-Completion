@@ -1,6 +1,6 @@
 # Importing the necessary libraries
 
-# TODO: figureout how to import the Chat class from the pychatgpt library
+# TODO: figure out how to import the Chat class from the pychatgpt library
 from pychatgpt import Chat
 import sys
 import subprocess
