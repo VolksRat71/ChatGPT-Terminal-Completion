@@ -14,8 +14,8 @@ To use this application, you will need to have an OpenAI API key. You can sign u
 Once you have an API key, you can download the source code for this application from GitHub:
 
 ```bash
-git clone https://github.com/your_username/openai-chatbot.git
-cd openai-chatbot
+git https://github.com/VolksRat71/ChatGPT-Terminal-Completion.git
+cd ChatGPT-Terminal-Completion
 ```
 
 Next, create a virtual environment and install the required dependencies:
