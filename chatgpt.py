@@ -12,7 +12,7 @@ copy_command = "pbcopy"
 def switch_case(index):
     switcher = {
         "--cmd": "Write a one line bash command for this task between two backticks: ",
-        "--search": "Search the web for this and return a URL: ",
+        "--search": "Search the web for this and return a URL in an https format: ",
         "--comment": "Write a comment for this code: ",
         "--chat": "",
         "default": ""
@@ -37,7 +37,7 @@ for choice in response.choices:
 
 if flag == "--cmd":
     try :
-        reply = re.search(r'`(.*)`', result).group(1).replace('`', '')
+        reply = re.search(r'`(.*)`', result).group(1)
     except AttributeError:
         reply = "error"
 
