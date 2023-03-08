@@ -1,35 +1,53 @@
-# ChatGPT-Terminal-Completion
-Attempt at using ChatGPT to issue commands based on comments in the terminal. (Python 3.9+)
+# OpenAI Chatbot
 
-Supports MacOS, uses pbcopy to copy to clipboard
+This is a command-line application that uses the OpenAI API to generate responses to user input. The application currently supports four types of commands:
 
-Implements `how` command for querying ChatGPT.
+- `--cmd`: Ask the chatbot to generate a one-line Bash command for a given task.
+- `--search`: Ask the chatbot to search the web for information and return a URL in an HTTPS format.
+- `--comment`: Ask the chatbot to generate a comment for a given block of code.
+- `--chat`: Ask the chatbot to engage in a free-form conversation.
 
-![ezgif-2-e5baff6ad3](https://user-images.githubusercontent.com/49484385/206848258-bc43d529-3ec2-4a85-856d-4704fc84327b.gif)
+## Installation
 
-## Setup
-1. Install python packages using `pip3 install -r requirements.txt`
-2. Put the function in script.sh to your bashrc/zshrc configuration file.
-3. Replace the path in the function with the path to your python file.
-4. Make a new .env file in the python file directory with your email and password formatted like
-5. That should be everything
+To use this application, you will need to have an OpenAI API key. You can sign up for an API key [here](https://beta.openai.com/signup/).
 
-``` 
-export EMAIL=email_chatgpt
-export PWD=your_password
-git clone git@github.com:MahdeenSky/ChatGPT-Terminal-Completion.git ~/.chatgpt_completion
-cd ~/.chatgpt_completion
-pip3 install -r requirements.txt
-cat script.sh|sed -r "s|\"Directory of the script\"|`pwd`|g" >>~/.${SHELL##*/}rc
-echo "email=${EMAIL}" >> .env
-echo "password=${PWD}" >> .env
-source ~/.${SHELL##*/}rc
+Once you have an API key, you can download the source code for this application from GitHub:
+
+```bash
+git clone https://github.com/your_username/openai-chatbot.git
+cd openai-chatbot
 ```
 
+Next, create a virtual environment and install the required dependencies:
 
-## Support
-For linux, an alternate copy to clipboard command is to use `xsel` or `xclip`
-and replacing the current copy command with said commands.
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-## Reference
-https://github.com/acheong08/ChatGPT
+To run the chatbot application, you can use the chatbot.py script with appropriate command-line arguments.
+
+Alternatively, you can add the following function to your .bashrc or .zshrc file to make running the chatbot more convenient:
+
+```sh
+function gpt {
+  args=$@
+  python3.9 "Directory of the script" "$args"
+}
+```
+
+Replace "Directory of the script" with the full path to the chatbot.py script on your machine.
+
+With this function in place, you can run the chatbot by typing gpt followed by the appropriate command-line arguments:
+
+```sh
+gpt --cmd "What's a good command to rename a file in Linux?"
+```
+
+The chatbot will generate a response based on the input question and command type, and print it to the console.
+
+In addition to the response, the chatbot will save the chat history to a list of dictionaries in the chat_history variable, which can be accessed from within the script.
+
+## License
+This project is licensed under the terms of the MIT license. See the LICENSE file for more details.
