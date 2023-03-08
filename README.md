@@ -1,4 +1,4 @@
-# OpenAI Chatbot
+# OpenAI Chatbot w/ CLi integration
 
 This is a command-line application that uses the OpenAI API to generate responses to user input. The application currently supports four types of commands:
 
