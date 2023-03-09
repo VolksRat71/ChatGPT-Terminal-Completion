@@ -4,6 +4,11 @@ import dotenv
 import os
 import re
 import subprocess
+Yes, you can detect the host computer's OS and select the correct CLI copy method by using the sys module in Python. Here's an example:
+
+py
+
+import sys
 
 # Load environment variables from .env file
 dotenv.load_dotenv()
@@ -12,7 +17,15 @@ dotenv.load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Define the command to copy text to clipboard
-copy_command = "pbcopy"
+copy_command = ""
+if sys.platform.startswith('darwin'):
+    copy_command = 'pbcopy'  # macOS
+elif sys.platform.startswith('win'):
+    copy_command = 'clip'  # Windows
+elif sys.platform.startswith('linux'):
+    copy_command = 'xclip -selection clipboard'  # Linux
+else:
+    print("Unsupported OS")
 
 # Initialize an empty list to hold chat history
 chat_history = []
