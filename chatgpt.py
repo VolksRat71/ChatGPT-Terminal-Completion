@@ -5,12 +5,16 @@ import os
 import re
 import subprocess
 import sys
+import re
 
 # Load environment variables from .env file
 dotenv.load_dotenv()
 
 # Set OpenAI API key from environment variable
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Initialize an empty list to hold chat history
+chat_history = []
 
 # Define the command to copy text to clipboard
 copy_command = ""
@@ -22,12 +26,6 @@ elif sys.platform.startswith('linux'):
     copy_command = 'xclip -selection clipboard'  # Linux
 else:
     print("Unsupported OS")
-
-# Initialize an empty list to hold chat history
-chat_history = []
-
-# Define a function to handle different types of commands
-import re
 
 def switch_case(index, result = "", scope="question"):
     """
