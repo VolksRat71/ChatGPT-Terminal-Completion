@@ -21,6 +21,19 @@ chat_history = []
 import re
 
 def switch_case(index, result = "", scope="question"):
+    """
+    This function takes three parameters:
+    `index` (string): a key to look up in the `switcher` dictionary,
+    `result` (string): optional parameter that holds the input value for formatting,
+    `scope` (string): specifies the type of formatting to be applied.
+
+    The `switcher` dictionary maps keys to dictionaries with two keys: "question" and "format".
+    "question" holds a string value, which is a prompt or question for the user.
+    "format" holds a lambda function that formats the result based on the given `scope`.
+
+    The function returns a formatted string based on the `index` and `scope` parameters,
+    or returns a default value if no key is found in `switcher`.
+    """
     switcher = {
         "--cmd": {
             "question": "Write a one line bash command for this task between two backticks: ",
@@ -44,7 +57,6 @@ def switch_case(index, result = "", scope="question"):
         }
     }
     return switcher.get(index, switcher["default"])[scope]
-
 
 # Parse the command line arguments to determine the type of command and the input question
 (flag, question) = sys.argv[1].split(maxsplit=1)
