@@ -18,15 +18,33 @@ copy_command = "pbcopy"
 chat_history = []
 
 # Define a function to handle different types of commands
-def switch_case(index):
+import re
+
+def switch_case(index, result = "", scope="question"):
     switcher = {
-        "--cmd": "Write a one line bash command for this task between two backticks: ",
-        "--search": "Search the web for this and return a URL in an https format: ",
-        "--comment": "Write a comment for this code: ",
-        "--chat": "",
-        "default": ""
+        "--cmd": {
+            "question": "Write a one line bash command for this task between two backticks: ",
+            "format": lambda: re.search(r'`(.*)`', result).group(1)
+        },
+        "--search": {
+            "question": "Search the web for this and return a URL in an https format: ",
+            "format": lambda: re.search(r'(?P<url>https?://[^\s]+)', result).group("url")
+        },
+        "--comment": {
+            "question": "Write a comment for this code: ",
+            "format": lambda: result
+        },
+        "--chat": {
+            "question": "",
+            "format": lambda: result
+        },
+        "default": {
+            "question": "",
+            "format": lambda: result
+        }
     }
-    return switcher.get(index, switcher["default"])
+    return switcher.get(index, switcher["default"])[scope]
+
 
 # Parse the command line arguments to determine the type of command and the input question
 (flag, question) = sys.argv[1].split(maxsplit=1)
@@ -51,19 +69,13 @@ for choice in response.choices:
     result += choice.text
     chat_history.append({"role": "bot", "content": choice.text})
 
-# If the command type is "--cmd", extract the command from the chatbot's response
-if flag == "--cmd":
-    try :
-        reply = re.search(r'`(.*)`', result).group(1)
-    except AttributeError:
-        reply = "error"
+Sure! Here's an example comment for the invocation of the switch_case() function:
 
-# If the command type is "--search", extract the URL from the chatbot's response
-if flag == "--search":
-    try :
-        reply = re.search(r'(?P<url>https?://[^\s]+)', result).group("url")
-    except AttributeError:
-        reply = "error"
+py
+
+# Call switch_case() with specified flag, result, and scope "format",
+# and assign the result to the variable "reply"
+reply = switch_case(flag, result, "format")
 
 # Print the chatbot's response to the console
 print(result)
