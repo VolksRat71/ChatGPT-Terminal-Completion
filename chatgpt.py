@@ -40,7 +40,7 @@ def switch_case(index, result = "", scope="question"):
             "format": lambda: re.search(r'`(.*)`', result).group(1)
         },
         "--search": {
-            "question": "Search the web for this and return a URL in an https format: ",
+            "question": "Search the web for this and return a URL in an https format and only the URL: ",
             "format": lambda: re.search(r'(?P<url>https?://[^\s]+)', result).group("url")
         },
         "--comment": {
@@ -80,10 +80,6 @@ reply = ''
 for choice in response.choices:
     result += choice.text
     chat_history.append({"role": "bot", "content": choice.text})
-
-Sure! Here's an example comment for the invocation of the switch_case() function:
-
-py
 
 # Call switch_case() with specified flag, result, and scope "format",
 # and assign the result to the variable "reply"
