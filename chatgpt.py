@@ -4,10 +4,6 @@ import dotenv
 import os
 import re
 import subprocess
-Yes, you can detect the host computer's OS and select the correct CLI copy method by using the sys module in Python. Here's an example:
-
-py
-
 import sys
 
 # Load environment variables from .env file
