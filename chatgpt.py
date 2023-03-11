@@ -58,7 +58,7 @@ def switch_case(index, input_value="", scope="question"):
             "format": lambda: re.search(r'(?P<url>https?://[^\s]+)', input_value).group("url")
         },
         "--comment": {
-            "question": "Write a comment for this code: ",
+            "question": "Write a comment for this code: \n```\n" + input_value + "\n```",
             "format": lambda: input_value
         },
         "--chat": {
@@ -78,8 +78,21 @@ def switch_case(index, input_value="", scope="question"):
 # Parse the command line arguments to determine the type of command and the input question
 (flag, question) = sys.argv[1].split(maxsplit=1)
 
+code_input = ""
+if flag == "--comment":
+    document = question.split()[0]
+    lines = question.split()[1].split("-")
+
+    with open(document, "r") as f:
+        read_only_code = f.readlines()
+
+    code_input = "".join(read_only_code[int(lines[0]):int(lines[1])])
+
+
 # Format the input question based on the command type
-formatted_question = switch_case(flag) + question
+formatted_question = switch_case(flag, code_input) + question
+
+print(formatted_question)
 
 # Call the OpenAI API to generate a response to the input question
 response = openai.Completion.create(
@@ -103,9 +116,9 @@ for choice in response.choices:
 # and assign the result to the variable "reply"
 reply = switch_case(flag, result, "format")()
 
-if flag == "--cmd":
+if flag == "--cmd" or flag == "--search":
     # Print a message indicating that the command has been copied to clipboard
-    print("Command copied to clipboard: " + reply)
+    print("Result copied to clipboard: " + reply)
     # Run a subprocess to copy the command to clipboard
     subprocess.run(copy_command, text=True, input=reply)
 else:
